@@ -1,8 +1,6 @@
 function Start()
+	CLConsole.CanUseConsole(false);
     LoadSprites()
---    CLGameObject.SetActive("DefaultCanvas", false)
---    CLGameObject.SetActive("BLOOM", false)
---    CLGameObject.SetActive("DebugScreen", false)
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
     CreateObject("Grass 1", -2, 8.33, -1)

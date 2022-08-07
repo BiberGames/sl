@@ -38,6 +38,11 @@ public class LuaRunner : MonoBehaviour
         {
             GameObject.Find("Console").GetComponent<Console>().Clear();
         }
+
+        public void CanUseConsole(bool _CanOpenConsole)
+        {
+             GameObject.Find("Console").GetComponent<Console>().CanUseConsole(_CanOpenConsole);
+        }
     }
     #endregion
 

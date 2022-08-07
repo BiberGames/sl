@@ -21,6 +21,8 @@ public class Console : MonoBehaviour
 
     private bool IsConsoleOpen = false;
 
+    private bool CanOpenConsole = true;
+
 
     public void AddLine(string Line)
     {
@@ -54,6 +56,11 @@ public class Console : MonoBehaviour
         }
     }
 
+    public void CanUseConsole(bool _CanOpenConsole)
+    {
+        CanOpenConsole = _CanOpenConsole;
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.F2))
@@ -61,7 +68,7 @@ public class Console : MonoBehaviour
             TakeScreenshot();
         }
 
-        if(Input.GetKeyDown(KeyCode.F4))
+        if(Input.GetKeyDown(KeyCode.F4) && CanOpenConsole)
         {
             ToggleConsoleState();
         }
