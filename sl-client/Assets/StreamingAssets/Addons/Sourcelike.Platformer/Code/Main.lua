@@ -1,5 +1,5 @@
 function Start()
-	CLConsole.CanUseConsole(false);
+	--CLConsole.CanUseConsole(false);
     LoadSprites()
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
