@@ -11,20 +11,16 @@ public class Console : MonoBehaviour
     public TextMeshProUGUI Output;
     public Engine_VersionInfo _Engine_VersionInfo;
     public TMP_InputField UserInput;
-    public Sprite ErrorSprite;
 
     public GameObject ConsoleWindow;
 
-    public Vector3 OldWindowPos;
-    public Vector3 NewWindowPos;
-
-    //public Fragsurf.Movement.SurfCharacter PlayerSpeedControler;
-    //public PlayerAiming CameraController;
-
-    public string[] maps;
-    bool IsConsoleOpen = false;
+    public float ConsoleOpenY;
+    public float ConsoleCloseY;
 
     public float Duration = 0.3f;
+
+    private bool IsConsoleOpen = false;
+
 
     public void AddLine(string Line)
     {
@@ -36,31 +32,38 @@ public class Console : MonoBehaviour
         Output.text = "";
     }
 
-    // Update is called once per frame
+    private void TakeScreenshot()
+    {
+        var SavePath = @Application.streamingAssetsPath + "/Screenshots/";
+        var CurrentDate = DateTime.Now.ToString("dd-MM-yyyy");
+        var CurrentTime = DateTime.Now.ToString("HH_mm_ss");
+        ScreenCapture.CaptureScreenshot(SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png");
+        Output.text += "\n<i>[Saved screenshot! to: " + SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png" + "]</i>";
+    }
+
+    private void ToggleConsoleState()
+    {
+        IsConsoleOpen = !IsConsoleOpen;
+        if(IsConsoleOpen)
+        {
+            LeanTween.moveY(ConsoleWindow.gameObject.GetComponent<RectTransform>(), ConsoleOpenY, Duration).setDelay(Duration);
+        }
+        else
+        {
+            LeanTween.moveY(ConsoleWindow.gameObject.GetComponent<RectTransform>(), ConsoleCloseY, Duration).setDelay(Duration);
+        }
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.F2))
         {
-            var SavePath = @Application.streamingAssetsPath + "/Screenshots/";
-            var CurrentDate = DateTime.Now.ToString("dd-MM-yyyy");
-            var CurrentTime = DateTime.Now.ToString("HH_mm_ss");
-            ScreenCapture.CaptureScreenshot(SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png");
-            Output.text += "\n<i>[Saved screenshot! to: " + SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png" + "]</i>";
+            TakeScreenshot();
         }
 
         if(Input.GetKeyDown(KeyCode.F4))
         {
-            IsConsoleOpen = !IsConsoleOpen;
-
-            if(IsConsoleOpen)
-            {
-                LeanTween.moveY(ConsoleWindow.gameObject.GetComponent<RectTransform>(), NewWindowPos.y, Duration).setDelay(Duration);
-                //GetConsoleInput();
-            }
-            else
-            {
-                LeanTween.moveY(ConsoleWindow.gameObject.GetComponent<RectTransform>(), OldWindowPos.y, Duration).setDelay(Duration);
-            }
+            ToggleConsoleState();
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -76,7 +79,6 @@ public class Console : MonoBehaviour
 
             if(TextBuffer[0] == "help")
             {
-                //Output.text += "Speed 0 - aunimitied speed (sonic go brrrrrrrr)\n mouse_sens 0 - unlimited (change mouse sensitivity";
                 Output.text += "\n=====Console=Help=============================================";
                 Output.text += "\nhelp\t=>\topens this page";
                 Output.text += "\nReload\t=>\treloads the map / scene";
@@ -84,31 +86,17 @@ public class Console : MonoBehaviour
                 Output.text += "\nlua halt / resume\t=>\tStops / resums lua from running";
             }
 
-            else if(TextBuffer[0] == "maps")
-            {
-                if(TextBuffer[1] == "*")
-                {
-                    //GameObject.Find("Notifications").GetComponent<NotificationSystem>().CreateMasage(ErrorSprite, "Nothing found...", "");
-                }
-            }
-
-            else if(TextBuffer[0] == "LogError")
-            {
-                //GameObject.Find("Notifications").GetComponent<NotificationSystem>().CreateMasage(ErrorSprite, TextBuffer[1], TextBuffer[2]);
-            }
-
             else if(TextBuffer[0] == "reload")
             {
-                //GameObject.Find("Notifications").GetComponent<NotificationSystem>().CreateMasage(ErrorSprite, "Realoding!", SceneManager.GetActiveScene().name);
+                AddLine("Reloading current scene!");
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                //GameObject.Find("LuaRunner").GetComponent<LuaRunner>().Lua();
             }
 
-            else if(TextBuffer[0] == "map")
+            else if(TextBuffer[0] == "scene")
             {
                 SceneManager.LoadScene(TextBuffer[1]);
             }
-
+            /*
             else if(TextBuffer[0] == "cl_draw_viewmodel_side")
             {
                 if(TextBuffer[1] == "0")
@@ -121,8 +109,8 @@ public class Console : MonoBehaviour
                 }
                 GameObject.Find("mmod").transform.position = new Vector3(0, 0, 0);
             }
-
-            else if(TextBuffer[0] == "exit")
+            */
+            else if(TextBuffer[0] == "exit" || TextBuffer[0] == "quit")
             {
                 Application.Quit();
             }
@@ -131,12 +119,12 @@ public class Console : MonoBehaviour
             {
                 Clear();
             }
-
+            /*
             else if(TextBuffer[0] == "setpos" || TextBuffer[0] == "tp" || TextBuffer[0] == "teleport")
             {
                 GameObject.Find("player").transform.position = new Vector3(float.Parse(TextBuffer[1]), float.Parse(TextBuffer[2]), float.Parse(TextBuffer[3]));
             }
-
+            
             else if(TextBuffer[0] == "addons")
             {
                 if(TextBuffer[1] == "list")
@@ -144,7 +132,7 @@ public class Console : MonoBehaviour
                     AddLine("\nList of installed addons:");
                 }
             }
-
+            */
             else if(TextBuffer[0] == "lua")
             {
                 if(TextBuffer[1] == "")

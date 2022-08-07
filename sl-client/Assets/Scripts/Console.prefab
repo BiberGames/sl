@@ -161,8 +161,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter command... (use help to get a list of commands)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c3a6bd29a755455e8a100a70e207849, type: 2}
+  m_sharedMaterial: {fileID: -3453135584917358723, guid: 7c3a6bd29a755455e8a100a70e207849, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -354,11 +354,9 @@ MonoBehaviour:
   Output: {fileID: 8868418671375432113}
   _Engine_VersionInfo: {fileID: 11400000, guid: 8a7868fa30fb24403bc2f191ec5df7f7, type: 2}
   UserInput: {fileID: 8868418670825510008}
-  ErrorSprite: {fileID: 0}
   ConsoleWindow: {fileID: 8868418670390213546}
-  OldWindowPos: {x: 0, y: -265, z: 0}
-  NewWindowPos: {x: 0, y: 265, z: 0}
-  maps: []
+  ConsoleOpenY: -265
+  ConsoleCloseY: 273
   Duration: 0.3
 --- !u!1 &8868418670741773205
 GameObject:
@@ -428,8 +426,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c3a6bd29a755455e8a100a70e207849, type: 2}
+  m_sharedMaterial: {fileID: -3453135584917358723, guid: 7c3a6bd29a755455e8a100a70e207849, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -664,7 +662,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 0
-  m_GlobalFontAsset: {fileID: 0}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 7c3a6bd29a755455e8a100a70e207849, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
