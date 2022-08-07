@@ -655,8 +655,6 @@ public class LuaRunner : MonoBehaviour
         }
         RawImportedLuaCode = System.IO.File.ReadAllText(@Application.streamingAssetsPath + "/Addons/" + AddonName + "/Code/Main.lua");
 
-        Debug.Log(AddonName);
-
         if(IsHalted == false)
         {
             try
