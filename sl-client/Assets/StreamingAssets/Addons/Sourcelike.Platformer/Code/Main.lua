@@ -1,5 +1,6 @@
 function Start()
 	--CLConsole.CanUseConsole(false);
+    CLUI.SetImage("LoadingImage", "Addons/Sourcelike.Platformer/LoadingBackground.png")
     LoadSprites()
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
@@ -96,7 +97,7 @@ function SpawnPlayer()
     CLTransform.Position("2DPlayer", 0, 10, 0, 0)
     CLCamera.SetSize("2DCamera", 5)
     GeneratePlatforms()
-    --CLGameObject.SetActive("LoadingBackground", false)
+    CLGameObject.SetActive("LoadingScreen", false)
 end
 
 PlayerAnimationFrame = 7
