@@ -37,7 +37,6 @@ public class LoadAddon : MonoBehaviour
     public void StartAddon()
     {
         int PressedButtonID = PresedButton.GetComponent<ButtonID>().ID;
-        Debug.Log(PressedButtonID);
         
         PlayerPrefs.SetString("AddonToLoad", AddonFolderNameBuffer[PressedButtonID]);
         SceneManager.LoadScene("LuaScene");
@@ -65,6 +64,7 @@ public class LoadAddon : MonoBehaviour
             AddonNameBuffer[i] = _MapAtributes[0];
             AddonFolderNameBuffer[i] = AddonDirList[i].Name;
 
+            GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#228B22>Addons > Found addon " + AddonNameBuffer[i] + "<color=#FFFFFF>");
             CreateSelector(i);
         }
     }
