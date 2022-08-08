@@ -18,4 +18,9 @@ public class Mainmenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OpenDCC()
+    {
+        Application.OpenURL("https://discord.gg/emWThStv32");
+    }
 }
