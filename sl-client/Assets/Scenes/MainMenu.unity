@@ -1614,7 +1614,7 @@ Camera:
   near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 10
   m_Depth: 0
   m_CullingMask:
@@ -2521,7 +2521,7 @@ MonoBehaviour:
   - {fileID: 1727354945}
   - {fileID: 1009167559}
   SplashTexts: []
-  rotationfactor: 100
+  rotationfactor: 60
 --- !u!1 &1240395643
 GameObject:
   m_ObjectHideFlags: 0
