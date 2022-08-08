@@ -1566,7 +1566,6 @@ GameObject:
   m_Component:
   - component: {fileID: 664478827}
   - component: {fileID: 664478829}
-  - component: {fileID: 664478830}
   m_Layer: 0
   m_Name: SplashCamera
   m_TagString: Untagged
@@ -1612,10 +1611,10 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 10
   m_Depth: 0
   m_CullingMask:
@@ -1632,30 +1631,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &664478830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664478826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a400789d5fd2cd4284b23c731ab0914, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TextObjects:
-  - {fileID: 1600491472}
-  - {fileID: 569280046}
-  - {fileID: 1462087537}
-  - {fileID: 1725921655}
-  - {fileID: 1492434985}
-  - {fileID: 336352827}
-  - {fileID: 491098578}
-  - {fileID: 1240395645}
-  - {fileID: 1727354945}
-  - {fileID: 1009167559}
-  SplashTexts: []
 --- !u!1 &696422458
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,6 +2464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1122779527}
+  - component: {fileID: 1122779528}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -2504,7 +2480,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122779526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2521,6 +2497,31 @@ Transform:
   m_Father: {fileID: 255551631}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122779528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122779526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a400789d5fd2cd4284b23c731ab0914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextObjects:
+  - {fileID: 1600491472}
+  - {fileID: 569280046}
+  - {fileID: 1462087537}
+  - {fileID: 1725921655}
+  - {fileID: 1492434985}
+  - {fileID: 336352827}
+  - {fileID: 491098578}
+  - {fileID: 1240395645}
+  - {fileID: 1727354945}
+  - {fileID: 1009167559}
+  SplashTexts: []
+  rotationfactor: 100
 --- !u!1 &1240395643
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,11 +8,17 @@ public class SplashText : MonoBehaviour
     int RandomInt = 0;
     public TextMeshPro[] TextObjects;
     public string[] SplashTexts;
+    public float rotationfactor = 1f;
 
     void Start()
     {
         SplashTexts = File.ReadAllLines(@Application.streamingAssetsPath + "/Splash.txt");
         RandomText();
+    }
+
+    void Update()
+    {
+        transform.Rotate(rotationfactor * Time.deltaTime, rotationfactor * Time.deltaTime, rotationfactor * Time.deltaTime, Space.Self);
     }
 
     void RandomText()
