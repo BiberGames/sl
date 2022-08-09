@@ -70,6 +70,7 @@ public class Console : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.F4) && CanOpenConsole)
         {
+            transform.SetAsLastSibling();
             ToggleConsoleState();
         }
 

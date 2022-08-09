@@ -604,6 +604,11 @@ public class LuaRunner : MonoBehaviour
         {
             GameObject.Find("LuaRunner").GetComponent<LuaAssetLoader>().DelayedLauncher(FuncName, WaitTime);
         }
+
+        public string ReturnAddonName()
+        {
+            return PlayerPrefs.GetString("AddonToLoad");
+        }
     }
     #endregion
 
