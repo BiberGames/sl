@@ -30,8 +30,8 @@ public class AddonMapLoader : MonoBehaviour
             Player2D.SetActive(false);
             Player3D.SetActive(true);
             Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/3DTest.obj");
-            Player3D.transform.position = GameObject.Find("info_player_spawn").transform.position;
             LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/"+ PlayerPrefs.GetString("MapToLoad") + ".obj");
+            Player3D.transform.position = GameObject.Find("info_player_spawn").transform.position;
         }
         else
         {
