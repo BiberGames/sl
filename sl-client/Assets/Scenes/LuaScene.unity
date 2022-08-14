@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -390,6 +390,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a7408f97090745eeb914a8c77b5ab9b, type: 3}
+--- !u!1 &491966969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5269988884872713337, guid: 3a7408f97090745eeb914a8c77b5ab9b, type: 3}
+  m_PrefabInstance: {fileID: 491966968}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &491966970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491966969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8659b89bcd3314dce80f401da8dd5caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Is3D: 0
+  LoadingScreenImage: {fileID: 1921873211}
+  Player2D: {fileID: 959022381}
+  Player3D: {fileID: 1077614222}
 --- !u!1 &613918173
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,7 +1356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6817638361354391145, guid: 32fce1012f8c24c43af86f00f457f500, type: 3}
       propertyPath: enableSurvivalStats
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6817638361354391145, guid: 32fce1012f8c24c43af86f00f457f500, type: 3}
       propertyPath: enableFootstepSounds
@@ -1351,6 +1372,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32fce1012f8c24c43af86f00f457f500, type: 3}
+--- !u!1 &1077614222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6817638361354391147, guid: 32fce1012f8c24c43af86f00f457f500, type: 3}
+  m_PrefabInstance: {fileID: 1077614221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1254235456
 GameObject:
   m_ObjectHideFlags: 0

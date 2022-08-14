@@ -2,7 +2,7 @@ AddonName = Utils.ReturnAddonName()
 
 function Start()
 	--CLConsole.CanUseConsole(false);
-    CLUI.SetImage("LoadingImage", "Addons/"..AddonName.."/LoadingBackground.png")
+    --CLUI.SetImage("LoadingImage", "Addons/"..AddonName.."/LoadingBackground.png")
     LoadSprites()
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
