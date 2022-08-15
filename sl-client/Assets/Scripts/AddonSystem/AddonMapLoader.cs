@@ -11,20 +11,26 @@ public class AddonMapLoader : MonoBehaviour
     public GameObject Player2D;
     public GameObject Player3D;
     public GameObject LoadedMap;
+    string MapName;
 
     void Start()
     {
+        MapName = PlayerPrefs.GetString("MapToLoad");
         if (PlayerPrefs.GetInt("AddonMode")==1) Is3D = true; else Is3D = false;
         LoadingScreen();
         SetupScene();
     }
 
-    void Uodate()
+    void Update()
     {
-        if(Is3D && GameObject.Find("info_player_start") &&  !PlayerSpawned)
+        if(Is3D == true && GameObject.Find("info_player_start") && PlayerSpawned == false)
         {
+            Debug.Log("Found player spawn...");
+            Vector3 PlayerSpawnPosition = GameObject.Find("info_player_start").transform.position;
             AddColision();
-            Player3D.transform.position = GameObject.Find("info_player_spawn").transform.position;
+            Destroy(GameObject.Find("info_player_start"));
+            Player3D.transform.position = PlayerSpawnPosition;
+
             PlayerSpawned = true;
         }
     }
@@ -32,7 +38,7 @@ public class AddonMapLoader : MonoBehaviour
     void AddColision()
     {
         GameObject.Find("Console").GetComponent<Console>().AddLine("\nAdding colliders...");
-        if(GameObject.Find("Root") != null)
+        if(LoadedMap != null)
         {
             Transform transform = LoadedMap.transform;
             foreach (Transform child in transform)
@@ -56,7 +62,6 @@ public class AddonMapLoader : MonoBehaviour
         {
             Player2D.SetActive(false);
             Player3D.SetActive(true);
-            string MapName = PlayerPrefs.GetString("MapToLoad");
             Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
             LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
         }
