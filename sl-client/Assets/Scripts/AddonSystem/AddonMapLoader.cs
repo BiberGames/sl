@@ -5,17 +5,44 @@ using System.Collections;
 
 public class AddonMapLoader : MonoBehaviour
 {
-    public bool Is3D = false;
+    private bool Is3D = false;
+    private bool PlayerSpawned = false;
     public RawImage LoadingScreenImage;
     public GameObject Player2D;
     public GameObject Player3D;
-    GameObject LoadedMap;
+    public GameObject LoadedMap;
 
     void Start()
     {
         if (PlayerPrefs.GetInt("AddonMode")==1) Is3D = true; else Is3D = false;
         LoadingScreen();
         SetupScene();
+    }
+
+    void Uodate()
+    {
+        if(Is3D && GameObject.Find("info_player_start") &&  !PlayerSpawned)
+        {
+            AddColision();
+            Player3D.transform.position = GameObject.Find("info_player_spawn").transform.position;
+            PlayerSpawned = true;
+        }
+    }
+
+    void AddColision()
+    {
+        GameObject.Find("Console").GetComponent<Console>().AddLine("\nAdding colliders...");
+        if(GameObject.Find("Root") != null)
+        {
+            Transform transform = LoadedMap.transform;
+            foreach (Transform child in transform)
+            {
+                if(child.gameObject.GetComponent<MeshCollider>() == null)
+                {
+                    child.gameObject.AddComponent<MeshCollider>();
+                }
+            }
+        }
     }
 
     void LoadingScreen()
@@ -29,9 +56,8 @@ public class AddonMapLoader : MonoBehaviour
         {
             Player2D.SetActive(false);
             Player3D.SetActive(true);
-            Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/3DTest.obj");
+            Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/"+ PlayerPrefs.GetString("MapToLoad") + ".obj");
             LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/"+ PlayerPrefs.GetString("MapToLoad") + ".obj");
-            Player3D.transform.position = GameObject.Find("info_player_spawn").transform.position;
         }
         else
         {
