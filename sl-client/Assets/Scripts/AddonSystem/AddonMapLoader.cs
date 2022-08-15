@@ -56,8 +56,9 @@ public class AddonMapLoader : MonoBehaviour
         {
             Player2D.SetActive(false);
             Player3D.SetActive(true);
-            Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/"+ PlayerPrefs.GetString("MapToLoad") + ".obj");
-            LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/"+ PlayerPrefs.GetString("MapToLoad") + ".obj");
+            string MapName = PlayerPrefs.GetString("MapToLoad");
+            Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
+            LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
         }
         else
         {
