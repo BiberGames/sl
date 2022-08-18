@@ -16,7 +16,6 @@ using MoonSharp.Interpreter;
 using TMPro;
 
 [RequireComponent(typeof(LuaAssetLoader))]
-[RequireComponent(typeof(BGIF_Tool))]
 public class LuaRunner : MonoBehaviour
 {
     private Script LuaScript;
