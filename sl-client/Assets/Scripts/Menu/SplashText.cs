@@ -5,6 +5,7 @@ using TMPro;
 
 public class SplashText : MonoBehaviour
 {
+    public Gradient ColorGradient;
     int RandomInt = 0;
     public TextMeshPro[] TextObjects;
     public string[] SplashTexts;
@@ -12,6 +13,7 @@ public class SplashText : MonoBehaviour
 
     void Start()
     {
+        SetColor();
         SplashTexts = File.ReadAllLines(@Application.streamingAssetsPath + "/Splash.txt");
         RandomText();
     }
@@ -19,6 +21,14 @@ public class SplashText : MonoBehaviour
     void Update()
     {
         transform.Rotate(rotationfactor * Time.deltaTime, rotationfactor * Time.deltaTime, rotationfactor * Time.deltaTime, Space.Self);
+    }
+
+    void SetColor()
+    {
+        for(int i = 0; i < TextObjects.Length; i++)
+        {
+            TextObjects[i].color = ColorGradient.Evaluate(i / 10f);
+        }
     }
 
     void RandomText()
