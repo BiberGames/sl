@@ -586,6 +586,18 @@ public class LuaRunner : MonoBehaviour
 
             return Loaded;
         }
+
+        public void SetTrigger(string GameObjectName, bool State)
+        {
+            GameObject TempGameObject = GameObject.Find(GameObjectName);
+            TempGameObject.GetComponent<BoxCollider2D>().isTrigger = State;
+            TempGameObject.AddComponent<Trigger2D>();
+        }
+
+        public string GetColisionName(string GameObjectName)
+        {
+            return GameObject.Find(GameObjectName).GetComponent<Trigger2D>().GetValue();
+        }
     }
     #endregion
 

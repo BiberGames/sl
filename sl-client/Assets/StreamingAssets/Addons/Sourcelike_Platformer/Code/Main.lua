@@ -2,7 +2,7 @@ AddonName = Utils.ReturnAddonName()
 
 function Start()
 	--CLConsole.CanUseConsole(false);
-    --CLUI.SetImage("LoadingImage", "Addons/"..AddonName.."/LoadingBackground.png")
+    CreateTestText()
     LoadSprites()
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
@@ -11,6 +11,7 @@ function Start()
     CreateObject("Grass 3", 0, 8.4, -1)
     CreateObject("Grass 4", 2, 8.32, -1)
     CreateObject("Grass 5", 4, 8, -1)
+    CreateTestTrigger()
     Utils.DelayedLauncher("SpawnPlayer", 2)
 end
 
@@ -32,9 +33,18 @@ function GeneratePlatforms()
     end
 end
 
---function CreateTestText()
+--function CreateTestText(isIn)
 --    CLUI.CeateText("TestText1", 10, "MainCanvas", '<color="red"><align="center">This is a test!</align>', 0, "", "")
 --    CLTransform.Position("TestText1", 100, 0, 0, 0)
+--end
+
+--function CreateTestTrigger()
+--    CLGameObject.CreateEmpty("Trigger")
+--    CLTransform.Position("Trigger", 1.2, 8.5, 0, 0)
+--    CLGameObject.AddComponent("Trigger", "2D.Sprite")
+--    CLGameObject.AddComponent("Trigger", "Physics.BoxCollider2D")
+--    CL2D.SetBoxColliderSize("Trigger", 1, 1)
+--    CL2D.SetTrigger("Trigger", true)
 --end
 
 function CreateIsland()
@@ -78,6 +88,7 @@ function LoadSprites()
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/Player/Player_04.png", 10, 16, true)
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/Football.png", 11, 16, true)
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/World/Platform.png", 12, 32, true)
+    CL2D.LoadSprite("Addons/_DEV_/Trigger.png", 13, 512, false)
 end
 
 function CreateObject(Name, X, Y, Z)
@@ -136,6 +147,7 @@ function GrassAnimation(Names)
 end
 
 function Loop()
+    CLConsole.Log(CL2D.GetColisionName("Trigger"))
     GrassAnimation({"Grass 1", "Grass 2", "Grass 3", "Grass 4", "Grass 5"})
     PlayerAnimation()
 
