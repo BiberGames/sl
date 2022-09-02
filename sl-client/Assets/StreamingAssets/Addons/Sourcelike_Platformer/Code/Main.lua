@@ -2,7 +2,6 @@ AddonName = Utils.ReturnAddonName()
 
 function Start()
 	--CLConsole.CanUseConsole(false);
-    CreateTestText()
     LoadSprites()
     Sky()
     CreateObject("Tree", -5, 9.54, 1)
@@ -11,7 +10,8 @@ function Start()
     CreateObject("Grass 3", 0, 8.4, -1)
     CreateObject("Grass 4", 2, 8.32, -1)
     CreateObject("Grass 5", 4, 8, -1)
-    CreateTestTrigger()
+    --CreateTestTrigger()
+    --CreateTestText()
     Utils.DelayedLauncher("SpawnPlayer", 2)
 end
 
@@ -88,7 +88,7 @@ function LoadSprites()
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/Player/Player_04.png", 10, 16, true)
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/Football.png", 11, 16, true)
     CL2D.LoadSprite("Addons/"..AddonName.."/Textures/World/Platform.png", 12, 32, true)
-    CL2D.LoadSprite("Addons/_DEV_/Trigger.png", 13, 512, false)
+    --CL2D.LoadSprite("Addons/_DEV_/Trigger.png", 13, 512, false)
 end
 
 function CreateObject(Name, X, Y, Z)
@@ -147,7 +147,7 @@ function GrassAnimation(Names)
 end
 
 function Loop()
-    CLConsole.Log(CL2D.GetColisionName("Trigger"))
+    --CLConsole.Log(CL2D.GetColisionName("Trigger"))
     GrassAnimation({"Grass 1", "Grass 2", "Grass 3", "Grass 4", "Grass 5"})
     PlayerAnimation()
 

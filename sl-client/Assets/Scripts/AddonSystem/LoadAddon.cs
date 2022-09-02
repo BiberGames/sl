@@ -42,17 +42,20 @@ public class LoadAddon : MonoBehaviour
 
         for(CurrentButtonID = 0; CurrentButtonID < AddonDirList.Length; CurrentButtonID++)
         {
-            string[] AddonInfoRaw = File.ReadAllText(@Application.streamingAssetsPath + "/Addons/" + AddonDirList[CurrentButtonID].Name + "/addon.txt").Split('\n');
-            MapAtributes[CurrentButtonID].AddonFolderName = AddonDirList[CurrentButtonID].Name;
-            MapAtributes[CurrentButtonID].AddonName = AddonInfoRaw[0];
-            MapAtributes[CurrentButtonID].AddonCreator = AddonInfoRaw[1];
-            MapAtributes[CurrentButtonID].Addon3dScene = AddonInfoRaw[2];
-            MapAtributes[CurrentButtonID].AddonType = AddonInfoRaw[3];
-            MapAtributes[CurrentButtonID].AddonMode = AddonInfoRaw[4];
+            if (File.Exists(@Application.streamingAssetsPath + "/Addons/" + AddonDirList[CurrentButtonID].Name + "/addon.txt"))
+            {
+                string[] AddonInfoRaw = File.ReadAllText(@Application.streamingAssetsPath + "/Addons/" + AddonDirList[CurrentButtonID].Name + "/addon.txt").Split('\n');
+                MapAtributes[CurrentButtonID].AddonFolderName = AddonDirList[CurrentButtonID].Name;
+                MapAtributes[CurrentButtonID].AddonName = AddonInfoRaw[0];
+                MapAtributes[CurrentButtonID].AddonCreator = AddonInfoRaw[1];
+                MapAtributes[CurrentButtonID].Addon3dScene = AddonInfoRaw[2];
+                MapAtributes[CurrentButtonID].AddonType = AddonInfoRaw[3];
+                MapAtributes[CurrentButtonID].AddonMode = AddonInfoRaw[4];
 
-            CreateButton(MapAtributes[CurrentButtonID]);
+                CreateButton(MapAtributes[CurrentButtonID]);
 
-            GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#228B22>Addons > Found addon " + MapAtributes[CurrentButtonID].AddonName + "<color=#FFFFFF>");
+                GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#228B22>Addons > Found addon " + MapAtributes[CurrentButtonID].AddonName + "<color=#FFFFFF>");
+            }
         }
 
         Button.SetActive(false);
