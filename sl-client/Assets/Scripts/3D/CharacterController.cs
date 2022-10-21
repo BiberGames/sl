@@ -15,9 +15,12 @@ public class CharacterController : MonoBehaviour
 
     [Header("Movement stuff")]
     public float MoveSpeed = 5f;
+    public float InAirMultiplier = 0.45f;
     public float JumpForce = 5f;
     public float Gravity;
     public bool Grounded = false;
+    public LayerMask _LayerMask;
+    public Transform GroundCheck;
 
     float MoveX;
     float MoveZ;
@@ -25,37 +28,46 @@ public class CharacterController : MonoBehaviour
     public Transform PlayerBody;
     private Rigidbody PlayerRigidbody;
 
-    void Start()
+    private void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 35;
         PlayerRigidbody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        Grounded = Physics.CheckSphere(GroundCheck.position, 0.4f, _LayerMask);
+
+        if (Input.GetKey(KeyCode.Space) && Grounded)
+            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, Gravity, PlayerRigidbody.velocity.z);
+
         MouseLook();
-        Movement();
+    }
+    void FixedUpdate ()
+    {
+        if(Grounded)
+            MovePlayer();
     }
 
-    public void Movement()
+    private void MovePlayer()
     {
-        MoveX = Input.GetAxis("Horizontal");
-        MoveZ = Input.GetAxis("Vertical");
+        Vector2 Axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * MoveSpeed;
 
-        Vector3 MovementVector = PlayerBody.transform.right * MoveX + PlayerBody.transform.forward * MoveZ;
-        if(!Grounded)
-            MovementVector.y += Gravity * Time.deltaTime;
-        else
-            MovementVector.y = 0f;
+        Vector3 Forward = new Vector3(-Camera.main.transform.right.z, 0.0f, Camera.main.transform.right.x);
 
-        PlayerRigidbody.velocity = (MovementVector * (MoveSpeed * 100)) * Time.deltaTime;
+        Vector3 Direction = (Forward * Axis.x + Camera.main.transform.right * Axis.y + Vector3.up * PlayerRigidbody.velocity.y);
+
+        PlayerRigidbody.velocity = Direction;
+
     }
 
-    public void MouseLook()
+    private void MouseLook()
     {
-        MouseX = Input.GetAxis("Mouse X") * (MouseSensitivity * 100) * Time.deltaTime;
-        MouseY = Input.GetAxis("Mouse Y") * (MouseSensitivity * 100) * Time.deltaTime;
+        MouseX = Input.GetAxis("Mouse X") * Time.deltaTime * MouseSensitivity;
+        MouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * MouseSensitivity;
 
         Xrotation -= MouseY;
         Xrotation = Mathf.Clamp(Xrotation, -MinMaXUpDown.x, MinMaXUpDown.y);
