@@ -27,8 +27,9 @@ public class AddonMapLoader : MonoBehaviour
         {
             Debug.Log("Found player spawn...");
             Vector3 PlayerSpawnPosition = GameObject.Find("info_player_start").transform.position;
+            Debug.Log(GameObject.Find("info_player_start").transform.position);
             AddColision();
-            Destroy(GameObject.Find("info_player_start"));
+            //Destroy(GameObject.Find("info_player_start"));
             Player3D.transform.position = PlayerSpawnPosition;
 
             PlayerSpawned = true;
