@@ -1157,13 +1157,16 @@ MonoBehaviour:
   MouseSensitivity: 50
   MinMaXUpDown: {x: 90, y: 85}
   MoveSpeed: 6
-  InAirMultiplier: 0.3
+  SwimmSpeed: 0.5
+  InAirMultiplier: 0.4
+  NoclipSpeed: 5
   JumpForce: 5
   GravityOnGround: 0
   Grounded: 0
   _LayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 17
   GroundCheck: {fileID: 1024933498}
+  CharacterControllerState: 0
   PlayerBody: {fileID: 1768451734}
   PlayerRigidbody: {fileID: 1768451735}

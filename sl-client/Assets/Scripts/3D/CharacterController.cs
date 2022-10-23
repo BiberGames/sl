@@ -20,6 +20,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float MoveSpeed = 5f;
     [SerializeField]
+    private float SwimmSpeed = 5f;
+    [SerializeField]
     private float InAirMultiplier = 0.45f;
     [SerializeField]
     private float NoclipSpeed = 5f;
@@ -75,8 +77,11 @@ public class CharacterController : MonoBehaviour
         {
             MoveMul = 1f;
 
-            if(Input.GetKeyDown(KeyCode.Space))
-                PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, JumpForce, PlayerRigidbody.velocity.z);
+            if(CharacterControllerState == State.Walking || CharacterControllerState == State.Sprinting)
+            {
+                if(Input.GetKeyDown(KeyCode.LeftControl))
+                    MoveMul = 1.2f;
+            }
         }
         else
         {
@@ -102,6 +107,10 @@ public class CharacterController : MonoBehaviour
                 NormalMovement();
                 break;
 
+            case State.Swimming:
+                SwimmMovement();
+                break;
+
             case State.Noclip:
                 NoclipMovement();
                 break;
@@ -119,6 +128,24 @@ public class CharacterController : MonoBehaviour
         Vector3 Direction = (Forward * Axis.x + CameraPivot.transform.right * Axis.y + Vector3.up * PlayerRigidbody.velocity.y);
 
         PlayerRigidbody.velocity = Direction;
+
+        if(Input.GetKeyDown(KeyCode.Space) && Grounded)
+            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, JumpForce, PlayerRigidbody.velocity.z);
+    }
+
+    private void SwimmMovement()
+    {
+        /*PlayerRigidbody.useGravity = true;
+        PlayerBody.GetComponent<CapsuleCollider>().enabled = true;
+
+        Vector3 Forward = new Vector3(-CameraPivot.transform.right.z, 0.0f, CameraPivot.transform.right.x);
+
+        Vector3 Direction = (Forward * Axis.x + CameraPivot.transform.right * Axis.y + Vector3.up * PlayerRigidbody.velocity.y);
+
+        PlayerBody.position += Direction * (SwimmSpeed / 100f);
+
+        if(Input.GetKey(KeyCode.Space))
+            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, JumpForce / 10, PlayerRigidbody.velocity.z);*/
     }
 
     private void NoclipMovement()
@@ -126,9 +153,9 @@ public class CharacterController : MonoBehaviour
         PlayerRigidbody.useGravity = false;
         PlayerBody.GetComponent<CapsuleCollider>().enabled = false;
 
-        Vector3 Direction = (CameraPivot.forward * Axis.x + CameraPivot.right * Axis.y) * (NoclipSpeed / 100);
+        Vector3 Direction = (CameraPivot.forward * Axis.x + CameraPivot.right * Axis.y) * (NoclipSpeed / 100f);
 
-        PlayerBody.position += Direction;//CameraPivot.forward + new Vector3(1,0,0) * Axis.y;
+        PlayerBody.position += Direction;
     }
 
     private void MouseLook()
@@ -141,5 +168,10 @@ public class CharacterController : MonoBehaviour
 
         CameraPivot.localRotation = Quaternion.Euler(Xrotation, 0f, 0f);
         PlayerBody.Rotate(Vector3.up * MouseX);
+    }
+
+    public void ToggleNoclip()
+    {
+        
     }
 }
