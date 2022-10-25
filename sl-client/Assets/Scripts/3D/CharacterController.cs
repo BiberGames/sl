@@ -20,9 +20,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float MoveSpeed = 5f;
     [SerializeField]
-    private float SwimmSpeed = 5f;
-    [SerializeField]
     private float InAirMultiplier = 0.45f;
+    [SerializeField]
+    private float InWaterMultiplier = 0.45f;
     [SerializeField]
     private float NoclipSpeed = 5f;
     [SerializeField]
@@ -70,7 +70,7 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Grounded = Physics.CheckSphere(GroundCheck.position, 0.4f, _LayerMask);
+        Grounded = CheckForGround();//Grounded = Physics.OverlapSphere(GroundCheck.position, 0.25f, _LayerMask);
         Axis = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")) * MoveSpeed;
         
         if (Grounded)
@@ -88,7 +88,21 @@ public class CharacterController : MonoBehaviour
             MoveMul = InAirMultiplier;
         }
 
+        if(Input.GetKeyDown(KeyCode.V))
+            ToggleNoclip();
+
         MouseLook();
+    }
+
+    private bool CheckForGround()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(GroundCheck.position, 0.25f, _LayerMask);
+        for(int i = 0; i < hitColliders.Length; i++)
+        {
+            if(hitColliders.Length > 0)
+                return true;
+        }
+        return false;
     }
 
     void FixedUpdate ()
@@ -135,17 +149,20 @@ public class CharacterController : MonoBehaviour
 
     private void SwimmMovement()
     {
-        /*PlayerRigidbody.useGravity = true;
+        PlayerRigidbody.useGravity = true;
         PlayerBody.GetComponent<CapsuleCollider>().enabled = true;
+        Axis = Axis * (MoveMul * InWaterMultiplier);
 
         Vector3 Forward = new Vector3(-CameraPivot.transform.right.z, 0.0f, CameraPivot.transform.right.x);
 
         Vector3 Direction = (Forward * Axis.x + CameraPivot.transform.right * Axis.y + Vector3.up * PlayerRigidbody.velocity.y);
 
-        PlayerBody.position += Direction * (SwimmSpeed / 100f);
+        PlayerRigidbody.velocity = Direction;
 
-        if(Input.GetKey(KeyCode.Space))
-            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, JumpForce / 10, PlayerRigidbody.velocity.z);*/
+        if(Input.GetKey(KeyCode.Space) && Grounded)
+            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, JumpForce * InWaterMultiplier, PlayerRigidbody.velocity.z);
+        else
+            PlayerRigidbody.velocity = new Vector3(PlayerRigidbody.velocity.x, -InWaterMultiplier, PlayerRigidbody.velocity.z);
     }
 
     private void NoclipMovement()
@@ -172,6 +189,10 @@ public class CharacterController : MonoBehaviour
 
     public void ToggleNoclip()
     {
-        
+        PlayerRigidbody.velocity = new Vector3(0f, 0f, 0f);
+        if(CharacterControllerState == State.Noclip)
+            CharacterControllerState = State.Walking;
+        else
+            CharacterControllerState = State.Noclip;
     }
 }
