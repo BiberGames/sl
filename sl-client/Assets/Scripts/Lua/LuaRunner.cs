@@ -455,6 +455,12 @@ public class LuaRunner : MonoBehaviour
 
             GameObject.Find("LuaRunner").GetComponent<LuaAssetLoader>().LoadAudio(AudioSourceName, fullpath);
         }
+
+        public void SetVolume(string AudioSourceName, float Volume)
+        {
+            Volume = Mathf.Clamp(Volume, 0.0f, 1.0f);
+            GameObject.Find(AudioSourceName).GetComponent<AudioSource>().volume = Volume;
+        }
     }
     #endregion
 
@@ -662,7 +668,7 @@ public class LuaRunner : MonoBehaviour
 
     public void CallFuncFromConsole(string FuncName)
     {
-        DynValue StartRes = LuaScript.Call(LuaScript.Globals[FuncName]);
+        LuaScript.DoString(FuncName);
     }
 
     void Start()

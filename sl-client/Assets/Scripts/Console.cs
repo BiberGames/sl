@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Console : MonoBehaviour
 {
@@ -23,6 +24,15 @@ public class Console : MonoBehaviour
 
     private bool CanOpenConsole = true;
 
+    void Start()
+    {
+        string[] AutoExecContent = System.IO.File.ReadAllLines(@Application.streamingAssetsPath + "/autoexec.con");
+        for(int i = 0; i < AutoExecContent.Length; i++)
+        {
+            string[] TextBuffer = AutoExecContent[i].Split(' ');
+            RunCmd(TextBuffer);
+        }
+    }
 
     public void AddLine(string Line)
     {
@@ -61,6 +71,70 @@ public class Console : MonoBehaviour
         CanOpenConsole = _CanOpenConsole;
     }
 
+    private void RunCmd(string[] Command)
+    {
+        if(Command[0] == "")
+        {
+            Output.text += "";
+        }
+
+        if(Command[0] == "help")
+        {
+            Output.text += "\n=====Console=Help=============================================";
+            Output.text += "\nhelp\t=>\topens this page";
+            Output.text += "\nReload\t=>\treloads the map / scene";
+            Output.text += "\ncl_draw_viewmodel_side\t=>\tchandes the weapon side 0 = right 1 = left";
+            Output.text += "\nlua halt / resume\t=>\tStops / resums lua from running";
+        }
+        else if(Command[0] == "reload")
+        {
+            AddLine("Reloading current scene!");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else if(Command[0] == "scene")
+        {
+            SceneManager.LoadScene(Command[1]);
+        }
+        else if(Command[0] == "exit" || Command[0] == "quit")
+        {
+            Application.Quit();
+        }
+        else if(Command[0] == "clear" || Command[0] == "cls")
+        {
+            Clear();
+        }
+        else if(Command[0] == "lua")
+        {
+            if(Command[1] == "")
+            {
+                AddLine("halt | resume | run");
+            }
+            if(Command[1] == "halt")
+            {
+                GameObject.Find("LuaRunner").GetComponent<LuaRunner>().IsHalted = true;
+                AddLine("\n<color=#FF0000>Lua halted...<color=#FFFFFF>");
+            }
+            if(Command[1] == "resume")
+            {
+                GameObject.Find("LuaRunner").GetComponent<LuaRunner>().IsHalted = false;
+                AddLine("\n<color=#FFFF00>Lua resumed...<color=#FFFFFF>");
+            }
+            if(Command[1] == "run")
+            {
+                GameObject.Find("LuaRunner").GetComponent<LuaRunner>().CallFuncFromConsole(Command[2]);
+            }
+        }
+        else if(Command[0] == "version" || Command[0] == "ver")
+        {
+            AddLine("\n=====Version=Info=============================================");
+            AddLine("\n=Version:" + _Engine_VersionInfo.VersionString);
+        }
+        else
+        {
+            AddLine("\n<color=#FF0000>Command '" + Command[0] +  "' was not found...<color=#FFFFFF>");
+        }
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.F2))
@@ -80,99 +154,7 @@ public class Console : MonoBehaviour
             string[] TextBuffer = InputText.Split(' ');
             Output.text += "\n<i>[ " + InputText + " ]</i>";
             UserInput.text = "";
-            if(TextBuffer[0] == "")
-            {
-                Output.text += "";
-            }
-
-            if(TextBuffer[0] == "help")
-            {
-                Output.text += "\n=====Console=Help=============================================";
-                Output.text += "\nhelp\t=>\topens this page";
-                Output.text += "\nReload\t=>\treloads the map / scene";
-                Output.text += "\ncl_draw_viewmodel_side\t=>\tchandes the weapon side 0 = right 1 = left";
-                Output.text += "\nlua halt / resume\t=>\tStops / resums lua from running";
-            }
-
-            else if(TextBuffer[0] == "reload")
-            {
-                AddLine("Reloading current scene!");
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
-
-            else if(TextBuffer[0] == "scene")
-            {
-                SceneManager.LoadScene(TextBuffer[1]);
-            }
-            /*
-            else if(TextBuffer[0] == "cl_draw_viewmodel_side")
-            {
-                if(TextBuffer[1] == "0")
-                {
-                    GameObject.Find("mmod").transform.localScale = new Vector3(1, 1, 1);
-                }
-                if(TextBuffer[1] == "1")
-                {
-                    GameObject.Find("mmod").transform.localScale = new Vector3(-1, 1, 1);
-                }
-                GameObject.Find("mmod").transform.position = new Vector3(0, 0, 0);
-            }
-            */
-            else if(TextBuffer[0] == "exit" || TextBuffer[0] == "quit")
-            {
-                Application.Quit();
-            }
-
-            else if(TextBuffer[0] == "clear" || TextBuffer[0] == "cls")
-            {
-                Clear();
-            }
-            /*
-            else if(TextBuffer[0] == "setpos" || TextBuffer[0] == "tp" || TextBuffer[0] == "teleport")
-            {
-                GameObject.Find("player").transform.position = new Vector3(float.Parse(TextBuffer[1]), float.Parse(TextBuffer[2]), float.Parse(TextBuffer[3]));
-            }
-            
-            else if(TextBuffer[0] == "addons")
-            {
-                if(TextBuffer[1] == "list")
-                {
-                    AddLine("\nList of installed addons:");
-                }
-            }
-            */
-            else if(TextBuffer[0] == "lua")
-            {
-                if(TextBuffer[1] == "")
-                {
-                    AddLine("halt | resume | run");
-                }
-                if(TextBuffer[1] == "halt")
-                {
-                    GameObject.Find("LuaRunner").GetComponent<LuaRunner>().IsHalted = true;
-                    AddLine("\n<color=#FF0000>Lua halted...<color=#FFFFFF>");
-                }
-                if(TextBuffer[1] == "resume")
-                {
-                    GameObject.Find("LuaRunner").GetComponent<LuaRunner>().IsHalted = false;
-                    AddLine("\n<color=#FFFF00>Lua resumed...<color=#FFFFFF>");
-                }
-                if(TextBuffer[1] == "run")
-                {
-                    GameObject.Find("LuaRunner").GetComponent<LuaRunner>().CallFuncFromConsole(TextBuffer[2]);
-                }
-            }
-
-            else if(TextBuffer[0] == "version" || TextBuffer[0] == "ver")
-            {
-                AddLine("\n=====Version=Info=============================================");
-                AddLine("\n=Version:" + _Engine_VersionInfo.VersionString);
-            }
-
-            else
-            {
-                AddLine("\n<color=#FF0000>Command '" + InputText +  "' was not found...<color=#FFFFFF>");
-            }
+            RunCmd(TextBuffer);
         }
     }
 }

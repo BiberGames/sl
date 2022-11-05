@@ -1,0 +1,2 @@
+version
+lua run CLAudio.SetVolume("LuaAudioSource",0.1)
