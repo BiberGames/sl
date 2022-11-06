@@ -26,11 +26,18 @@ public class Console : MonoBehaviour
 
     void Start()
     {
-        string[] AutoExecContent = System.IO.File.ReadAllLines(@Application.streamingAssetsPath + "/autoexec.con");
-        for(int i = 0; i < AutoExecContent.Length; i++)
+        if(SceneManager.GetActiveScene().name == "MainMenu")
         {
-            string[] TextBuffer = AutoExecContent[i].Split(' ');
-            RunCmd(TextBuffer);
+            string[] AutoExecContent = System.IO.File.ReadAllLines(@Application.streamingAssetsPath + "/autoexec.con");
+            for(int i = 0; i < AutoExecContent.Length; i++)
+            {
+                string[] TextBuffer = AutoExecContent[i].Split(' ');
+                RunCmd(TextBuffer);
+            }
+        }
+        else
+        {
+            AddLine("Not loading autoexec in this scene. (not main menu)");
         }
     }
 
@@ -121,7 +128,7 @@ public class Console : MonoBehaviour
             }
             if(Command[1] == "run")
             {
-                GameObject.Find("LuaRunner").GetComponent<LuaRunner>().CallFuncFromConsole(Command[2]);
+                GameObject.Find("LuaRunner").GetComponent<LuaRunner>().RunLuaFromConsole(Command[2]);
             }
         }
         else if(Command[0] == "version" || Command[0] == "ver")

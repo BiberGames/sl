@@ -668,7 +668,12 @@ public class LuaRunner : MonoBehaviour
 
     public void CallFuncFromConsole(string FuncName)
     {
-        LuaScript.DoString(FuncName);
+        LuaScript.Call(LuaScript.Globals[FuncName]);
+    }
+
+    public void RunLuaFromConsole(string Script)
+    {
+        LuaScript.DoString(Script);
     }
 
     void Start()
