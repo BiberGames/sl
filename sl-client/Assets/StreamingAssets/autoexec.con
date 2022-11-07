@@ -1,2 +1,4 @@
-version
+#version
 lua run CLAudio.SetVolume("LuaAudioSource",0.1)
+#lua run CLTransform.Position("BAR",0,-10,0,0)
+#lua run CLUI.SetSize("BAR",0,0,0,0)

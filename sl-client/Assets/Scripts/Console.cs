@@ -85,6 +85,11 @@ public class Console : MonoBehaviour
             Output.text += "";
         }
 
+        if(Command[0].Substring(0, 1) == "#")
+        {
+            return;
+        }
+
         if(Command[0] == "help")
         {
             Output.text += "\n=====Console=Help=============================================";

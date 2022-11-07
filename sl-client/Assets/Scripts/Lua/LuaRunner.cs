@@ -376,10 +376,12 @@ public class LuaRunner : MonoBehaviour
 
             GameObject.Find("LuaRunner").GetComponent<LuaAssetLoader>().LoadImage(ImageViewer, fullpath);
         }
-        public void SetImageSize(string ImageViewer, int x, int y)
+        public void SetSize(string ImageViewer, int x1, int y1, int x2, int y2)
         {
             RectTransform _RectTransform = GameObject.Find(ImageViewer).GetComponent<RectTransform>();
-            _RectTransform.sizeDelta = new Vector2(x, y);
+            _RectTransform.anchorMin = new Vector2(x1, y1);
+            _RectTransform.anchorMax = new Vector2(x2, y2);
+            //_RectTransform.sizeDelta = new Vector2(x, y);
         }
         public void SetSpriteAlpha(string ImageViewer, float AlphaIntensety, float FadeDuration)
         {
@@ -400,9 +402,9 @@ public class LuaRunner : MonoBehaviour
             GameObject.Find(GameObjectName).GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
             GameObject.Find(GameObjectName).GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
         }
-        public void CeateText(string GameobjectName, int Order, string Canvas, string Massage, int FontStyle, string Wrapping, string Overflow)
+        public void CreateText(string GameObjectName, int Order, string Canvas, string Massage, int FontStyle, string Wrapping, string Overflow)
         {
-            GameObject Text = new GameObject(GameobjectName);
+            GameObject Text = new GameObject(GameObjectName);
             Text.transform.SetParent(GameObject.Find(Canvas).transform);
             Text.transform.SetSiblingIndex(Order);
             Text.AddComponent<MeshRenderer>();
@@ -410,9 +412,9 @@ public class LuaRunner : MonoBehaviour
             Text.GetComponent<TextMeshProUGUI>().text = Massage;
             
         }
-        public void SetText(string GameobjectName, string Massage)
+        public void SetText(string GameObjectName, string Massage)
         {
-            GameObject.Find(GameobjectName).GetComponent<TextMeshProUGUI>().text = Massage;
+            GameObject.Find(GameObjectName).GetComponent<TextMeshProUGUI>().text = Massage;
         }
     }
     #endregion
