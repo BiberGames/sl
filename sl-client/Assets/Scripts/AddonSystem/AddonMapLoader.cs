@@ -1,7 +1,8 @@
-using Dummiesman;
+//using Dummiesman;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Siccity.GLTFUtility;
 
 public class AddonMapLoader : MonoBehaviour
 {
@@ -63,14 +64,21 @@ public class AddonMapLoader : MonoBehaviour
         {
             Player2D.SetActive(false);
             Player3D.SetActive(true);
-            Debug.Log(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
-            LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
+            string filepath = @Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".gltf";
+            Debug.Log(filepath);
+            Importer.ImportGLTFAsync(filepath, new ImportSettings(), OnFinishAsync);
+            //LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
         }
         else
         {
             Player2D.SetActive(true);
             Player3D.SetActive(false);
         }
+    }
+
+    void OnFinishAsync(GameObject result, AnimationClip[] animations)
+    {
+        //Debug.Log("Finished importing " + result.name);
     }
 
     private IEnumerator LoadLoadingScreenImage(RawImage input1, string Path)
