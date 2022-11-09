@@ -1,4 +1,3 @@
-//using Dummiesman;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -9,10 +8,14 @@ public class AddonMapLoader : MonoBehaviour
     private bool Is3D = false;
     private bool PlayerSpawned = false;
     public RawImage LoadingScreenImage;
+    public GameObject LoadingScreenUI;
     public GameObject Player2D;
     public GameObject Player3D;
     public GameObject LoadedMap;
     string MapName;
+    [Header("Map entities")]
+    public GameObject env_test;
+    public GameObject env_ambient_light;
 
     void Start()
     {
@@ -26,14 +29,53 @@ public class AddonMapLoader : MonoBehaviour
     {
         if(Is3D == true && GameObject.Find("info_player_start") && PlayerSpawned == false)
         {
-            Debug.Log("Found player spawn...");
-            Vector3 PlayerSpawnPosition = GameObject.Find("info_player_start").transform.position;
-            Debug.Log(GameObject.Find("info_player_start").transform.position);
             AddColision();
-            //Destroy(GameObject.Find("info_player_start"));
-            Player3D.transform.position = PlayerSpawnPosition;
 
             PlayerSpawned = true;
+        }
+    }
+
+    void SetupMapEntities(GameObject MapObject)
+    {
+        if(MapObject.name == "info_player_start")
+        {
+            Transform Player3DSpawn = MapObject.transform;
+            Player3D.transform.position = Player3DSpawn.position;
+            Player3D.transform.eulerAngles = new Vector3(0, Player3DSpawn.eulerAngles.y, 0);
+
+            Destroy(Player3DSpawn.gameObject);
+            MapObject.SetActive(false);
+        }
+        else if(MapObject.name == "env_test")
+        {
+            // a test point entity
+            Instantiate(env_test, MapObject.transform.position, MapObject.transform.localRotation);
+
+            MapObject.SetActive(false);
+        }
+        else if(MapObject.name == "env_ambient_light")
+        {
+            // only one sun per map so don't need to make a new one...
+            // need to switch y and z axis...
+            env_ambient_light.transform.position = MapObject.transform.position;
+            env_ambient_light.transform.eulerAngles = new Vector3(MapObject.transform.eulerAngles .x + 90f, MapObject.transform.eulerAngles .y, MapObject.transform.eulerAngles.z);
+
+            MapObject.SetActive(false);
+        }
+        else if(MapObject.name == "env_cubemap")
+        {
+            GameObject env_cubemap = new GameObject("env_cubemap");
+            env_cubemap.transform.position = MapObject.transform.position;
+            env_cubemap.AddComponent<ReflectionProbe>();
+            env_cubemap.GetComponent<ReflectionProbe>().mode = UnityEngine.Rendering.ReflectionProbeMode.Realtime;
+            env_cubemap.GetComponent<ReflectionProbe>().refreshMode = UnityEngine.Rendering.ReflectionProbeRefreshMode.ViaScripting;
+            env_cubemap.GetComponent<ReflectionProbe>().RenderProbe();
+
+            MapObject.SetActive(false);
+        }
+        else
+        {
+            MapObject.name = "map_geometry";
         }
     }
 
@@ -45,6 +87,7 @@ public class AddonMapLoader : MonoBehaviour
             Transform transform = LoadedMap.transform;
             foreach (Transform child in transform)
             {
+                SetupMapEntities(child.gameObject);
                 if(child.gameObject.GetComponent<MeshCollider>() == null)
                 {
                     child.gameObject.AddComponent<MeshCollider>();
@@ -65,9 +108,9 @@ public class AddonMapLoader : MonoBehaviour
             Player2D.SetActive(false);
             Player3D.SetActive(true);
             string filepath = @Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".gltf";
+            GameObject.Find("Console").GetComponent<Console>().AddLine("\n" + filepath ); 
             Debug.Log(filepath);
             Importer.ImportGLTFAsync(filepath, new ImportSettings(), OnFinishAsync);
-            //LoadedMap = new OBJLoader().Load(@Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".obj");
         }
         else
         {
@@ -79,6 +122,8 @@ public class AddonMapLoader : MonoBehaviour
     void OnFinishAsync(GameObject result, AnimationClip[] animations)
     {
         //Debug.Log("Finished importing " + result.name);
+        LoadedMap = result;
+        LoadingScreenUI.SetActive(false);
     }
 
     private IEnumerator LoadLoadingScreenImage(RawImage input1, string Path)
