@@ -18,6 +18,8 @@ public class AddonMapLoader : MonoBehaviour
     [Header("Map entities")]
     public GameObject env_test;
     public GameObject env_ambient_light;
+    public GameObject env_fire;
+    public GameObject env_dust;
 
     void Start()
     {
@@ -82,6 +84,18 @@ public class AddonMapLoader : MonoBehaviour
         {
             MapObject.GetComponent<MeshRenderer>().material = Wireframe;
             MapObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else if(MapObjectName[0] == "env_fire")
+        {
+            Instantiate(env_fire, MapObject.transform.position, MapObject.transform.localRotation);
+
+            MapObject.SetActive(false);
+        }
+        else if(MapObjectName[0] == "env_dust")
+        {
+            Instantiate(env_dust, MapObject.transform.position, MapObject.transform.localRotation);
+
+            MapObject.SetActive(false);
         }
         else
         {
