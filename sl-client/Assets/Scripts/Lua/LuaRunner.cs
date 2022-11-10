@@ -470,17 +470,12 @@ public class LuaRunner : MonoBehaviour
     [MoonSharpUserData]
     class CLMap : MonoBehaviour
     {
-        public void CreateSun(string GameObjectName, float R, float G, float B, float Intensety, float ShadowStrength)
+        public void EditSun(float R, float G, float B, float Intensety)
         {
-            Destroy(GameObject.Find(GameObjectName).GetComponent<MeshCollider>());
-            Destroy(GameObject.Find(GameObjectName).GetComponent<MeshFilter>());
-            Destroy(GameObject.Find(GameObjectName).GetComponent<MeshRenderer>());
-
-            GameObject.Find(GameObjectName).AddComponent<Light>();
-            GameObject.Find(GameObjectName).GetComponent<Light>().type = LightType.Directional;
-            GameObject.Find(GameObjectName).GetComponent<Light>().color = new Color(R, G, B, 1f);
-            GameObject.Find(GameObjectName).GetComponent<Light>().intensity = Intensety;
-            GameObject.Find(GameObjectName).GetComponent<Light>().shadowStrength = ShadowStrength;
+            //GameObject.Find("Sun").GetComponent<Light>().type = LightType.Directional;
+            Debug.Log("R: " + R + " G: " + G + " B: " + B + " Intensety:" + Intensety);
+            GameObject.Find("Sun").GetComponent<Light>().color = new Color(R, G, B, 1f);
+            GameObject.Find("Sun").GetComponent<Light>().intensity = Intensety;
         }
 
         public void CreatePointLight(string GameObjectName, float Range, float R, float G, float B, float Intensety)

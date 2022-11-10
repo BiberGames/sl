@@ -412,6 +412,7 @@ MonoBehaviour:
   Player2D: {fileID: 959022381}
   Player3D: {fileID: 1077614222}
   LoadedMap: {fileID: 0}
+  Wireframe: {fileID: 2100000, guid: 00beda2b66611c94585c48036234dc94, type: 2}
   env_test: {fileID: 897819553}
   env_ambient_light: {fileID: 942998180}
 --- !u!1 &613918173
@@ -912,7 +913,7 @@ GameObject:
   - component: {fileID: 942998182}
   - component: {fileID: 942998181}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

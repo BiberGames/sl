@@ -13,6 +13,8 @@ public class AddonMapLoader : MonoBehaviour
     public GameObject Player3D;
     public GameObject LoadedMap;
     string MapName;
+    [Header("Debug materials")]
+    public Material Wireframe;
     [Header("Map entities")]
     public GameObject env_test;
     public GameObject env_ambient_light;
@@ -29,15 +31,18 @@ public class AddonMapLoader : MonoBehaviour
     {
         if(Is3D == true && GameObject.Find("info_player_start") && PlayerSpawned == false)
         {
-            AddColision();
-
             PlayerSpawned = true;
         }
     }
 
     void SetupMapEntities(GameObject MapObject)
     {
-        if(MapObject.name == "info_player_start")
+        Debug.Log(MapObject.name);
+        string eriorjg = MapObject.name;
+        string[] MapObjectName = eriorjg.Split('.');
+        Debug.Log(MapObjectName[0]);
+
+        if(MapObjectName[0] == "info_player_start")
         {
             Transform Player3DSpawn = MapObject.transform;
             Player3D.transform.position = Player3DSpawn.position;
@@ -46,23 +51,23 @@ public class AddonMapLoader : MonoBehaviour
             Destroy(Player3DSpawn.gameObject);
             MapObject.SetActive(false);
         }
-        else if(MapObject.name == "env_test")
+        else if(MapObjectName[0] == "env_test")
         {
             // a test point entity
             Instantiate(env_test, MapObject.transform.position, MapObject.transform.localRotation);
 
             MapObject.SetActive(false);
         }
-        else if(MapObject.name == "env_ambient_light")
+        else if(MapObjectName[0] == "env_ambient_light")
         {
             // only one sun per map so don't need to make a new one...
-            // need to switch y and z axis...
+            // need to add 90° on the x axis to get the same angle as in blender...
             env_ambient_light.transform.position = MapObject.transform.position;
-            env_ambient_light.transform.eulerAngles = new Vector3(MapObject.transform.eulerAngles .x + 90f, MapObject.transform.eulerAngles .y, MapObject.transform.eulerAngles.z);
+            env_ambient_light.transform.eulerAngles = new Vector3(MapObject.transform.eulerAngles.x + 90f, MapObject.transform.eulerAngles.y, MapObject.transform.eulerAngles.z);
 
             MapObject.SetActive(false);
         }
-        else if(MapObject.name == "env_cubemap")
+        else if(MapObjectName[0] == "env_cubemap")
         {
             GameObject env_cubemap = new GameObject("env_cubemap");
             env_cubemap.transform.position = MapObject.transform.position;
@@ -73,25 +78,27 @@ public class AddonMapLoader : MonoBehaviour
 
             MapObject.SetActive(false);
         }
+        else if(MapObjectName[0] == "env_clip")
+        {
+            MapObject.GetComponent<MeshRenderer>().material = Wireframe;
+            MapObject.GetComponent<MeshRenderer>().enabled = false;
+        }
         else
         {
-            MapObject.name = "map_geometry";
         }
     }
 
     void AddColision()
     {
         GameObject.Find("Console").GetComponent<Console>().AddLine("\nAdding colliders...");
-        if(LoadedMap != null)
+
+        Transform transform = LoadedMap.transform;
+        foreach (Transform child in transform)
         {
-            Transform transform = LoadedMap.transform;
-            foreach (Transform child in transform)
+            SetupMapEntities(child.gameObject);
+            if(child.gameObject.GetComponent<MeshCollider>() == null)
             {
-                SetupMapEntities(child.gameObject);
-                if(child.gameObject.GetComponent<MeshCollider>() == null)
-                {
-                    child.gameObject.AddComponent<MeshCollider>();
-                }
+                child.gameObject.AddComponent<MeshCollider>();
             }
         }
     }
@@ -123,6 +130,7 @@ public class AddonMapLoader : MonoBehaviour
     {
         //Debug.Log("Finished importing " + result.name);
         LoadedMap = result;
+        AddColision();
         LoadingScreenUI.SetActive(false);
     }
 
