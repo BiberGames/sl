@@ -2,3 +2,4 @@ engine - https://www.unity.com/
 lua - https://www.moonsharp.org/
 map loader - https://github.com/Siccity/GLTFUtility
 wireframe shader - https://github.com/Chaser324/unity-wireframe
+ui blur shader - https://gist.github.com/JohannesMP/7d62f282705169a2855a0aac315ff381

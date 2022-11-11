@@ -83,7 +83,7 @@ public class AddonMapLoader : MonoBehaviour
         else if(MapObjectName[0] == "env_clip")
         {
             MapObject.GetComponent<MeshRenderer>().material = Wireframe;
-            MapObject.GetComponent<MeshRenderer>().enabled = false;
+            //MapObject.GetComponent<MeshRenderer>().enabled = false;
         }
         else if(MapObjectName[0] == "env_fire")
         {
