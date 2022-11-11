@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a593ee5e98849b78d21dca3c53d6d6, type: 3}
   m_Name: Version Info
   m_EditorClassIdentifier: 
-  VersionString: 0.0.1 Reboot
-  VersionInt: 001
+  VersionString: 0.0.3 Reboot
+  VersionInt: 003
   APIKey: "INFE7(ohBU(/P)JNIP)(H\xA7)(r3q"

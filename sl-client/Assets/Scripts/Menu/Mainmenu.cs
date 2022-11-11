@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Mainmenu : MonoBehaviour
 {
-    public GameObject Menu;
-    public Vector3 OpenScale;
+    public RectTransform Menu;
+    public Material BlurUI;
+    public float MoveValue = 400;
     public float OpenDuration;
+
+    public void Start()
+    {
+        BlurUI.SetFloat("_Radius", 0.0f);
+    }
 
     public void OpenMenu()
     {
-        Menu.SetActive(true);
-        LeanTween.scale(Menu, OpenScale, OpenDuration);
+        //Menu.SetActive(true);
+        LeanTween.moveX(Menu, MoveValue, OpenDuration);
+        BlurUI.SetFloat("_Radius", 5.0f);
     }
 
     public void QuitGame()

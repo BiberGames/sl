@@ -4,16 +4,17 @@
 //                                                       //
 ///////////////////////////////////////////////////////////
 
+using TMPro;
 using System.IO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using System.Collections;
 using MoonSharp.Interpreter;
-using TMPro;
+using UnityEngine.Networking;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System.Runtime.InteropServices;
 
 [RequireComponent(typeof(LuaAssetLoader))]
 public class LuaRunner : MonoBehaviour
@@ -663,6 +664,16 @@ public class LuaRunner : MonoBehaviour
         }
     }
 
+    [DllImport("user32.dll", EntryPoint = "SetWindowText")]
+    public static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
+    [DllImport("user32.dll", EntryPoint = "GetActiveWindow")]
+    public static extern System.IntPtr GetActiveWindow();
+
+    public void EditWindowTitle(string NewTitle)
+    {
+        SetWindowText(GetActiveWindow(), NewTitle);
+    }
+
     public void CallFuncFromConsole(string FuncName)
     {
         LuaScript.Call(LuaScript.Globals[FuncName]);
@@ -696,6 +707,7 @@ public class LuaRunner : MonoBehaviour
                 GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#FF0000>Lua ERROR > " + ex + "<color=#FFFFFF>");
             }
         }
+        EditWindowTitle("Sourcelike |" + GameObject.Find("Console").GetComponent<Console>()._Engine_VersionInfo.VersionString + "| -- " + AddonName);
     }
 
     void Update()
