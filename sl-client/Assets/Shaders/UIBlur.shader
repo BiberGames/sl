@@ -73,7 +73,7 @@ Shader "Custom/UIBlur"
                 #pragma multi_compile __ IS_SPRITE_VISIBLE
                 #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
-                #include "UIBlur_Shared.cginc"
+                #include "/UIBlur_Shared.cginc"
 
                 sampler2D _GrabTexture;
                 float4 _GrabTexture_TexelSize;

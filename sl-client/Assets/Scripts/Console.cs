@@ -141,6 +141,11 @@ public class Console : MonoBehaviour
             AddLine("\n=====Version=Info=============================================");
             AddLine("\n=Version:" + _Engine_VersionInfo.VersionString);
         }
+        else if(Command[0] == "cl_drawclip")
+        {
+            Color customColor = new Color(1f, 0f, 0f, float.Parse(Command[1]));
+            GameObject.Find("LuaRunner").GetComponent<AddonMapLoader>().Wireframe.SetColor("_WireColor", customColor);
+        }
         else
         {
             AddLine("\n<color=#FF0000>Command '" + Command[0] +  "' was not found...<color=#FFFFFF>");

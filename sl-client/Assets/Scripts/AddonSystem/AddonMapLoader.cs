@@ -27,6 +27,9 @@ public class AddonMapLoader : MonoBehaviour
         if (PlayerPrefs.GetInt("AddonMode")==1) Is3D = true; else Is3D = false;
         LoadingScreen();
         SetupScene();
+
+        Color customColor = new Color(1f, 0f, 0f, 0f);
+        Wireframe.SetColor("_WireColor", customColor);
     }
 
     void Update()

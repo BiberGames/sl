@@ -100,7 +100,7 @@ fixed4 frag(g2f i) : SV_Target
 
     // Smooth our line out
     float t = exp2(_WireSmoothness * -1.0 * minDistanceToEdge * minDistanceToEdge);
-    fixed4 finalColor = lerp(_BaseColor, _WireColor, t);
+    fixed4 finalColor = _WireColor;//lerp(_BaseColor, _WireColor, t);
 
     return finalColor;
 }
