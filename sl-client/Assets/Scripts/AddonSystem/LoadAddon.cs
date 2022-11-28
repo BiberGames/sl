@@ -28,6 +28,16 @@ public class LoadAddon : MonoBehaviour
     GameObject PresedButton;
     int CurrentButtonID = 0;
 
+    public Sprite Mode2D;
+    public Sprite Mode3D;
+
+    public Sprite GameMode;
+    public Sprite Base;
+    public Sprite Error;
+
+    //public Sprite[] GameModeIcon;
+    //public Sprite[] GameModeIcon;
+
     void OnEnable()
     {
         CreateAddonList();
@@ -52,7 +62,7 @@ public class LoadAddon : MonoBehaviour
                 MapAtributes[CurrentButtonID].AddonType = AddonInfoRaw[3];
                 MapAtributes[CurrentButtonID].AddonMode = AddonInfoRaw[4];
 
-                CreateButton(MapAtributes[CurrentButtonID]);
+                CreateButton(MapAtributes[CurrentButtonID], AddonInfoRaw[4], AddonInfoRaw[3]);
 
                 GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#228B22>Addons > Found addon " + MapAtributes[CurrentButtonID].AddonName + "<color=#FFFFFF>");
             }
@@ -61,12 +71,34 @@ public class LoadAddon : MonoBehaviour
         Button.SetActive(false);
     }
 
-    void CreateButton(MapAtribute _MapAtribute)
+    void CreateButton(MapAtribute _MapAtribute, string AddonMode, string AddonType)
     {
         GameObject CurrentButton = Instantiate(Button, new Vector3(0,0,0), Quaternion.identity, Contriner);
         CurrentButton.GetComponent<ButtonID>().ID = BID++;
 
         CurrentButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = _MapAtribute.AddonName;
+
+        if(AddonMode == "2D")
+        {
+            CurrentButton.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = Mode2D;
+        }
+        else
+        {
+            CurrentButton.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = Mode3D;
+        }
+
+        if(AddonType == "GameMode")
+        {
+            CurrentButton.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Image>().sprite = GameMode;
+        }
+        else if(AddonType == "Base")
+        {
+            CurrentButton.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Image>().sprite = Base;
+        }
+        else
+        {
+            CurrentButton.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Image>().sprite = Error;
+        }
 
         RawImage _RawImageCurrentFilePreview = CurrentButton.transform.GetChild(0).gameObject.GetComponent<RawImage>();
 

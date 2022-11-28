@@ -42,10 +42,8 @@ public class AddonMapLoader : MonoBehaviour
 
     void SetupMapEntities(GameObject MapObject)
     {
-        Debug.Log(MapObject.name);
         string eriorjg = MapObject.name;
         string[] MapObjectName = eriorjg.Split('.');
-        Debug.Log(MapObjectName[0]);
 
         if(MapObjectName[0] == "info_player_start")
         {
@@ -133,7 +131,6 @@ public class AddonMapLoader : MonoBehaviour
             Player3D.SetActive(true);
             string filepath = @Application.streamingAssetsPath + "/Addons/" + PlayerPrefs.GetString("AddonToLoad") + "/Maps/" + MapName + ".gltf";
             GameObject.Find("Console").GetComponent<Console>().AddLine("\n" + filepath ); 
-            Debug.Log(filepath);
             Importer.ImportGLTFAsync(filepath, new ImportSettings(), OnFinishAsync);
         }
         else
