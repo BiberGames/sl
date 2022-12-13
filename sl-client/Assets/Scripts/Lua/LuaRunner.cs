@@ -357,6 +357,7 @@ public class LuaRunner : MonoBehaviour
 
         public void SetActive(string GameObjectName, bool State)
         {
+            GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#FFFF00> Lua > " + "Setting '" + GameObjectName + "' to " + State + "<color=#FFFFFF>"); 
             GameObject.Find(GameObjectName).SetActive(State);
         }
 
