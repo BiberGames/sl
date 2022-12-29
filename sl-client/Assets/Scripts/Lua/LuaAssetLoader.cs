@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using Siccity.GLTFUtility;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class LuaAssetLoader : MonoBehaviour
 {
@@ -70,6 +71,12 @@ public class LuaAssetLoader : MonoBehaviour
         {
             Debug.Log("Done.");
         }
+    }
+
+    public void LoadModel(string Path, string AddonName)
+    {
+        string filepath = @Application.streamingAssetsPath + "/Addons/" + AddonName + Path + ".gltf";
+        Importer.ImportGLTFAsync(filepath, new ImportSettings(), null);
     }
 
     private IEnumerator LoadAudio(AudioSource AudioPlayer, string AudioPath)

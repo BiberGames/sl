@@ -22,7 +22,7 @@ public class LuaRunner : MonoBehaviour
     private Script LuaScript;
     public bool IsHalted;
     public string RawImportedLuaCode;
-    string AddonName;
+    public static string AddonName;
 
     public Sprite[] SpriteCash;
 
@@ -606,6 +606,25 @@ public class LuaRunner : MonoBehaviour
     }
     #endregion
 
+    #region CL3D
+    [MoonSharpUserData]
+    class CL3D : MonoBehaviour
+    {
+        public void ImportModel(string Path, string Name, string Layer)
+        {
+            GameObject.Find("LuaRunner").GetComponent<LuaAssetLoader>().LoadModel(Path, AddonName);
+        }
+
+        /*void OnFinishAsync(GameObject result, AnimationClip[] animations)
+        {
+            //Debug.Log("Finished importing " + result.name);
+            LoadedMap = result;
+            AddColision();
+            LoadingScreenUI.SetActive(false);
+        }*/
+    }
+    #endregion
+
     #region Utils
     [MoonSharpUserData]
     class Utils : MonoBehaviour
@@ -656,6 +675,7 @@ public class LuaRunner : MonoBehaviour
             LuaScript.Globals["CLAudio"] = new CLAudio();
             LuaScript.Globals["CLMap"] = new CLMap();
             LuaScript.Globals["CL2D"] = new CL2D();
+            LuaScript.Globals["CL3D"] = new CL3D();
             LuaScript.Globals["Utils"] = new Utils();
             
             // Runs lua...
