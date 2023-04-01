@@ -43,6 +43,10 @@ public class SplashText : MonoBehaviour
             {
                 TextObjects[i].text = "Only today!";
             }
+            else if (CurrentDate == "01-04")
+            {
+                TextObjects[i].text = "Happy april 1st!";
+            }
             else if(CurrentDate == "29-05")
             {
                 TextObjects[i].text = "Happy Birthday @BENJA_303!";
