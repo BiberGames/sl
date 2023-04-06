@@ -23,6 +23,25 @@ public class Console : MonoBehaviour
     private bool IsConsoleOpen = false;
 
     private bool CanOpenConsole = true;
+    private bool ShowUnityLog = true;
+
+    void OnEnable()
+    {
+        Application.logMessageReceived += HandleLog;
+    }
+     
+    void OnDisable()
+    {
+        Application.logMessageReceived -= HandleLog;
+    }
+
+    private void HandleLog(string logString, string stackTrace, LogType type)
+    {
+        if(type == LogType.Exception && ShowUnityLog)
+        {
+            GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#808080>Unity > " + logString + "<color=#FFFFFF>");
+        }
+    }
 
     void Start()
     {
