@@ -146,6 +146,10 @@ public class Console : MonoBehaviour
             Color customColor = new Color(1f, 0f, 0f, float.Parse(Command[1]));
             GameObject.Find("LuaRunner").GetComponent<AddonMapLoader>().Wireframe.SetColor("_WireColor", customColor);
         }
+        else if(Command[0] == "ShowUnityLog")
+        {
+            ShowUnityLog = !ShowUnityLog;
+        }
         else
         {
             AddLine("\n<color=#FF0000>Command '" + Command[0] +  "' was not found...<color=#FFFFFF>");

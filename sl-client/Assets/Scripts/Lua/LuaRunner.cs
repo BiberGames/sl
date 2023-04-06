@@ -706,21 +706,6 @@ public class LuaRunner : MonoBehaviour
         LuaScript.DoString(Script);
     }
 
-    void OnEnable()
-    {
-        Application.logMessageReceived += HandleLog;
-    }
-     
-    void OnDisable()
-    {
-        Application.logMessageReceived -= HandleLog;
-    }
-
-    private void HandleLog(string logString, string stackTrace, LogType type)
-    {
-        GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#808080>Unity > " + logString + "<color=#FFFFFF>"); 
-    }
-
     void Start()
     {
         if(SceneManager.GetActiveScene().name == "MainMenu")
