@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////
 //                                                       //
-//  This is the Lua api form sourcelike                  //
+//  This is the Lua api form sourcelike (my old game)    //
 //                                                       //
 ///////////////////////////////////////////////////////////
 
@@ -684,7 +684,7 @@ public class LuaRunner : MonoBehaviour
             DynValue StartRes = LuaScript.Call(LuaScript.Globals["Start"]);
         }
     }
-
+#if UNITY_STANDALONE_WIN
     [DllImport("user32.dll", EntryPoint = "SetWindowText")]
     public static extern bool SetWindowText(System.IntPtr hwnd, System.String lpString);
     [DllImport("user32.dll", EntryPoint = "GetActiveWindow")]
@@ -694,6 +694,7 @@ public class LuaRunner : MonoBehaviour
     {
         SetWindowText(GetActiveWindow(), NewTitle);
     }
+#endif
 
     public void CallFuncFromConsole(string FuncName)
     {
@@ -728,7 +729,9 @@ public class LuaRunner : MonoBehaviour
                 GameObject.Find("Console").GetComponent<Console>().AddLine("\n<color=#FF0000>Lua ERROR > " + ex + "<color=#FFFFFF>");
             }
         }
+ #if UNITY_STANDALONE_WIN
         EditWindowTitle("Sourcelike |" + GameObject.Find("Console").GetComponent<Console>()._Engine_VersionInfo.VersionString + "| -- " + AddonName);
+#endif
     }
 
     void Update()
