@@ -29,7 +29,6 @@ public class LuaRunner : MonoBehaviour
     public static void RegisterCustomValueTypes()
     {
         // Vector 2
-
         Script.GlobalOptions.CustomConverters.SetScriptToClrCustomConversion(DataType.Table, typeof(Vector2),
             dynVal => {
                 Table table = dynVal.Table;
@@ -48,7 +47,6 @@ public class LuaRunner : MonoBehaviour
         );
 
         // Vector3
-
         Script.GlobalOptions.CustomConverters.SetScriptToClrCustomConversion(DataType.Table, typeof(Vector3),
             dynVal => {
                 Table table = dynVal.Table;
@@ -68,6 +66,27 @@ public class LuaRunner : MonoBehaviour
             }
         );
 
+        // Vector4
+        Script.GlobalOptions.CustomConverters.SetScriptToClrCustomConversion(DataType.Table, typeof(Vector4),
+            dynVal => {
+                Table table = dynVal.Table;
+                float x = (float)((double)table[1]);
+                float y = (float)((double)table[2]);
+                float z = (float)((double)table[3]);
+                float w = (float)((double)table[4]);
+                return new Vector4(x, y, z, w);
+            }
+        );
+        Script.GlobalOptions.CustomConverters.SetClrToScriptCustomConversion<Vector4>(
+            (script, vector) => {
+                DynValue x = DynValue.NewNumber((double)vector.x);
+                DynValue y = DynValue.NewNumber((double)vector.y);
+                DynValue z = DynValue.NewNumber((double)vector.z);
+                DynValue w = DynValue.NewNumber((double)vector.w);
+                DynValue dynVal = DynValue.NewTable(script, new DynValue[] { x, y, z, w });
+                return dynVal;
+            }
+        );
     }
 
     #region CLConsole
@@ -95,70 +114,60 @@ public class LuaRunner : MonoBehaviour
     [MoonSharpUserData]
     class CLTransform : MonoBehaviour
     {
-        public void Position(string GameObjectName, float X, float Y, float Z, int Mode)
+        public void Position(string GameObjectName, Vector3 Position, int Mode)
         {
             if(Mode == 0)
             {
-                GameObject.Find(GameObjectName).transform.localPosition = new Vector3(X, Y, Z);
+                GameObject.Find(GameObjectName).transform.localPosition = Position;
             }
             else if(Mode == 1)
             {
-                GameObject.Find(GameObjectName).transform.localPosition += new Vector3(X, Y, Z);
+                GameObject.Find(GameObjectName).transform.localPosition += Position;
             }
         }
 
-        public List<float> GetPosition(string GameObjectName)
+        public Vector3 GetPosition(string GameObjectName)
         {
-            float[] PositionCordinates = new float[3];
-            PositionCordinates[0] = GameObject.Find(GameObjectName).transform.localPosition.x;
-            PositionCordinates[1] = GameObject.Find(GameObjectName).transform.localPosition.y;
-            PositionCordinates[2] = GameObject.Find(GameObjectName).transform.localPosition.z;
-
-            return new List<float>(PositionCordinates);
+            return GameObject.Find(GameObjectName).transform.localPosition;
         }
 
-        public void Rotation(string GameObjectName, float X, float Y, float Z, int Mode)
+        public void Rotation(string GameObjectName, Vector3 Rotation, int Mode)
         {
             if(Mode == 0)
             {
-                GameObject.Find(GameObjectName).transform.eulerAngles = new Vector3(X, Y, Z);
+                GameObject.Find(GameObjectName).transform.eulerAngles = Rotation;
             }
             else if(Mode == 1)
             {
-                GameObject.Find(GameObjectName).transform.eulerAngles += new Vector3(X, Y, Z) * Time.deltaTime;
+                GameObject.Find(GameObjectName).transform.eulerAngles += Rotation * Time.deltaTime;
             }
         }
 
-        public List<float> GetRotation(string GameObjectName)
+        public Vector3 GetRotation(string GameObjectName)
         {
-            float[] RotationCordinates = new float[3];
-            RotationCordinates[0] = GameObject.Find(GameObjectName).transform.eulerAngles.x;
-            RotationCordinates[1] = GameObject.Find(GameObjectName).transform.eulerAngles.y;
-            RotationCordinates[2] = GameObject.Find(GameObjectName).transform.eulerAngles.z;
-
-            return new List<float>(RotationCordinates);
+            return GameObject.Find(GameObjectName).transform.eulerAngles;
         }
 
-        public void Scale(string GameObjectName, float X, float Y, float Z, int Mode)
+        public void Scale(string GameObjectName, Vector3 Scale, int Mode)
         {
             if(Mode == 0)
             {
-                GameObject.Find(GameObjectName).transform.localScale = new Vector3(X, Y, Z);
+                GameObject.Find(GameObjectName).transform.localScale = Scale);
             }
             else if(Mode == 1)
             {
-                GameObject.Find(GameObjectName).transform.localScale += new Vector3(X, Y, Z) * Time.deltaTime;
+                GameObject.Find(GameObjectName).transform.localScale += Scale * Time.deltaTime;
             }
         }
 
-        public List<float> GetScale(string GameObjectName)
+        public Vector3 GetScale(string GameObjectName)
         {
             float[] ScaleCordinates = new float[3];
             ScaleCordinates[0] = GameObject.Find(GameObjectName).transform.localScale.x;
             ScaleCordinates[1] = GameObject.Find(GameObjectName).transform.localScale.y;
             ScaleCordinates[2] = GameObject.Find(GameObjectName).transform.localScale.z;
 
-            return new List<float>(ScaleCordinates);
+            return GameObject.Find(GameObjectName).transform.localScale;
         }
 
         public void MoveForward(string GameObjectName, float MoveValue)
@@ -222,24 +231,14 @@ public class LuaRunner : MonoBehaviour
             return Input.GetAxis(AxisName);
         }
 
-        public float GetMousePos2DX()
+        public Vector2 GetMousePos2D()
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = Camera.main.nearClipPlane;
 
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
-            return worldPosition.x;
-        }
-
-        public float GetMousePos2DY()
-        {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = Camera.main.nearClipPlane;
-
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-
-            return worldPosition.y;
+            return worldPosition;
         }
     }
     #endregion
@@ -563,26 +562,26 @@ public class LuaRunner : MonoBehaviour
             GameObject.Find("LuaRunner").GetComponent<LuaAssetLoader>().SetSprite(SpriteViewer, SpriteID);
         }
 
-        public void SetColliderOffset(string GameObjectName, float X, float Y)
+        public void SetColliderOffset(string GameObjectName, Vector2 Offset)
         {
             if (GameObject.Find(GameObjectName).GetComponent<BoxCollider2D>())
             {
-                GameObject.Find(GameObjectName).GetComponent<BoxCollider2D>().offset = new Vector2(X, Y);
+                GameObject.Find(GameObjectName).GetComponent<BoxCollider2D>().offset = Offset);
             }
             else if(GameObject.Find(GameObjectName).GetComponent<CapsuleCollider2D>())
             {
-                GameObject.Find(GameObjectName).GetComponent<CapsuleCollider2D>().offset = new Vector2(X, Y);
+                GameObject.Find(GameObjectName).GetComponent<CapsuleCollider2D>().offset = Offset;
             }
         }
 
-        public void SetBoxColliderSize(string GameObjectName, float Width, float Height)
+        public void SetBoxColliderSize(string GameObjectName, Vector2 Size)
         {
-            GameObject.Find(GameObjectName).GetComponent<BoxCollider2D>().size = new Vector2(Width, Height);
+            GameObject.Find(GameObjectName).GetComponent<BoxCollider2D>().size = Size;
         }
 
-        public void SetCapsuleColliderSize(string GameObjectName, float Width, float Height)
+        public void SetCapsuleColliderSize(string GameObjectName, Vector2 Size)
         {
-            GameObject.Find(GameObjectName).GetComponent<CapsuleCollider2D>().size = new Vector2(Width, Height);
+            GameObject.Find(GameObjectName).GetComponent<CapsuleCollider2D>().size = Size;
         }
 
         public void SetCircleColliderSize(string GameObjectName, float Radius)
