@@ -26,6 +26,50 @@ public class LuaRunner : MonoBehaviour
 
     public Sprite[] SpriteCash;
 
+    public static void RegisterCustomValueTypes()
+    {
+        // Vector 2
+
+        Script.GlobalOptions.CustomConverters.SetScriptToClrCustomConversion(DataType.Table, typeof(Vector2),
+            dynVal => {
+                Table table = dynVal.Table;
+                float x = (float)((double)table[1]);
+                float y = (float)((double)table[2]);
+                return new Vector2(x, y);
+            }
+        );
+        Script.GlobalOptions.CustomConverters.SetClrToScriptCustomConversion<Vector2>(
+            (script, vector) => {
+                DynValue x = DynValue.NewNumber((double)vector.x);
+                DynValue y = DynValue.NewNumber((double)vector.y);
+                DynValue dynVal = DynValue.NewTable(script, new DynValue[] { x, y });
+                return dynVal;
+            }
+        );
+
+        // Vector3
+
+        Script.GlobalOptions.CustomConverters.SetScriptToClrCustomConversion(DataType.Table, typeof(Vector3),
+            dynVal => {
+                Table table = dynVal.Table;
+                float x = (float)((double)table[1]);
+                float y = (float)((double)table[2]);
+                float z = (float)((double)table[3]);
+                return new Vector3(x, y, z);
+            }
+        );
+        Script.GlobalOptions.CustomConverters.SetClrToScriptCustomConversion<Vector3>(
+            (script, vector) => {
+                DynValue x = DynValue.NewNumber((double)vector.x);
+                DynValue y = DynValue.NewNumber((double)vector.y);
+                DynValue z = DynValue.NewNumber((double)vector.z);
+                DynValue dynVal = DynValue.NewTable(script, new DynValue[] { x, y, z });
+                return dynVal;
+            }
+        );
+
+    }
+
     #region CLConsole
     [MoonSharpUserData]
     class CLConsole : MonoBehaviour
@@ -645,6 +689,11 @@ public class LuaRunner : MonoBehaviour
         {
             return PlayerPrefs.GetString("AddonToLoad");
         }
+
+        public string TestV2(Vector2 test)
+        {
+            return $"Test vector2: {test.x}, {test.y}";
+        }
     }
     #endregion
 
@@ -660,7 +709,7 @@ public class LuaRunner : MonoBehaviour
         if(IsHalted == false)
         {
             UserData.RegisterAssembly();
-
+            RegisterCustomValueTypes();
             LuaScript = new Script();
 
             LuaScript.Globals["CLConsole"] = new CLConsole();
