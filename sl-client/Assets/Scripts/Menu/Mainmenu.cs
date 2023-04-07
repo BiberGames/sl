@@ -17,7 +17,7 @@ public class Mainmenu : MonoBehaviour
     public void OpenMenu()
     {
         //Menu.SetActive(true);
-        LeanTween.moveX(Menu, MoveValue, OpenDuration);
+        LeanTween.moveX(Menu, MoveValue, OpenDuration).setEase(LeanTweenType.easeOutBounce);
         BlurUI.SetFloat("_Radius", 5.0f);
     }
 
