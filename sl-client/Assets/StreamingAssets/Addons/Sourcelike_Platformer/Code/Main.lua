@@ -54,7 +54,7 @@ function CreateIsland()
     CL2D.SetBoxColliderSize("Island", 14, 10)
     CL2D.SetColliderOffset("Island", -0.8, 3)
     CL2D.SetSprite("Island", 0)
-    CLTransform.Position("Island", 0, 0, 0, 0)
+    CLTransform.Position("Island", {0, 0, 0}, 0)
 end
 
 function CreateFootball()
@@ -63,14 +63,14 @@ function CreateFootball()
     CLGameObject.AddComponent("Football", "Physics.CircleCollider2D")
     CLGameObject.AddComponent("Football", "Physics.Rigidbody2D")
     CL2D.SetCircleColliderSize("Football", 0.5)
-    CL2D.SetColliderOffset("Football", 0, 0)
+    CL2D.SetColliderOffset("Football", {0, 0})
     CL2D.SetSprite("Football", 11)
-    CLTransform.Position("Football", -3, 15, 0, 0)
+    CLTransform.Position("Football", {-3, 15, 0}, 0)
 end
 
 function Sky()
     CLGameObject.CreateEmpty("Sky")
-    CLTransform.Position("Sky", 0, 0, 100, 0)
+    CLTransform.Position("Sky", {0, 0, 100}, 0)
     CLGameObject.AddComponent("Sky", "2D.Sprite")
 end
 
@@ -93,21 +93,21 @@ end
 
 function CreateObject(Name, X, Y, Z)
     CLGameObject.CreateEmpty(Name)
-    CLTransform.Position(Name, X, Y, Z, 0)
+    CLTransform.Position(Name, {X, Y, Z}, 0)
     CLGameObject.AddComponent(Name, "2D.Sprite")
 end
 
 function SpawnPlayer()
-    CL2D.SetCapsuleColliderSize("2DPlayer", 0, 0)
+    CL2D.SetCapsuleColliderSize("2DPlayer", {0, 0})
 
     CLGameObject.AddComponent("2DPlayer", "Physics.BoxCollider2D")
-    CL2D.SetBoxColliderSize("2DPlayer", 1, 1)
+    CL2D.SetBoxColliderSize("2DPlayer", {1, 1})
 
     CreateFootball()
     CreateIsland()
     CL2D.SetSprite("Sky", 6)
     CL2D.SetSprite("Tree", 5)
-    CLTransform.Position("2DPlayer", 0, 10, 0, 0)
+    CLTransform.Position("2DPlayer", {0, 10, 0}, 0)
     CLCamera.SetSize("2DCamera", 5)
     GeneratePlatforms()
     CLGameObject.SetActive("LoadingScreen", false)
@@ -153,13 +153,13 @@ function Loop()
 
     BallPosition = CLTransform.GetPosition("Football")
     if BallPosition[2] < 6 then
-        CLTransform.Position("Football", -3, 15, 0, 0)
+        CLTransform.Position("Football", {-3, 15, 0}, 0)
     end
 
     PlayerPosition = CLTransform.GetPosition("2DPlayer")
     if PlayerPosition[2] < 6 then
-        CLTransform.Position("2DPlayer", 0, 15, 0, 0)
+        CLTransform.Position("2DPlayer", {0, 15, 0}, 0)
     end
 
-    CLTransform.Position("Sky", PlayerPosition[1], PlayerPosition[2], 10, 0)
+    CLTransform.Position("Sky", {PlayerPosition[1], PlayerPosition[2], 10}, 0)
 end

@@ -42,11 +42,11 @@ function CreateBackgroundElemants()
     CLTransform.SetSiblingIndex("Background", 0)
 
     -- resets the scale of the background
-    CLTransform.Scale("Background", 1, 1, 1, 0)
-    CLTransform.Position("Background", 0, 0, 0, 0)
+    CLTransform.Scale("Background", {1, 1, 1}, 0)
+    CLTransform.Position("Background", {0, 0, 0}, 0)
 
-    CLTransform.Scale("Flash", 1, 1, 1, 0)
-    CLTransform.Position("Flash", 0, 0, 0, 0)
+    CLTransform.Scale("Flash", {1, 1, 1}, 0)
+    CLTransform.Position("Flash", {0, 0, 0}, 0)
 
     -- generating some stuff
     CLUI.SetSpriteAlpha("Flash", 0, 2)
@@ -59,17 +59,17 @@ function NewImage()
 end
 
 function UpdateBackground()
-    CLTransform.Scale("BackgroundImage", 0.02, 0.02, 0.02, 1)
-    CLTransform.Rotation("BackgroundImage", 0, 0, -0.33, 1)
+	CLTransform.Scale("BackgroundImage", {0.02, 0.02, 0.02}, 1)
+    CLTransform.Rotation("BackgroundImage", {0, 0, -0.33}, 1)
 
-    BackgroundImageScale = CLTransform.GetScale("BackgroundImage")
+    local BackgroundImageScale = CLTransform.GetScale("BackgroundImage")
 
     if BackgroundImageScale[1] > 1.35 then
         CLUI.SetSpriteAlpha("Flash", 1, 0.0001)
         -- nice...
         NewImage()
-        CLTransform.Rotation("BackgroundImage", 0, 0, 0, 0)
-        CLTransform.Scale("BackgroundImage", 1, 1, 1, 0)
+        CLTransform.Rotation("BackgroundImage", {0, 0, 0}, 0)
+        CLTransform.Scale("BackgroundImage", {1, 1, 1}, 0)
         CLUI.SetSpriteAlpha("Flash", 0, 2)
     end
 end

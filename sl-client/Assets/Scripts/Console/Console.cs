@@ -77,7 +77,7 @@ public class Console : MonoBehaviour
         var CurrentDate = DateTime.Now.ToString("dd-MM-yyyy");
         var CurrentTime = DateTime.Now.ToString("HH_mm_ss");
         ScreenCapture.CaptureScreenshot(SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png");
-        Output.text += "\n<i>[Saved screenshot! to: " + SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png" + "]</i>";
+        Output.text += "\n<i>[Saved screenshot to: " + SavePath + "Screenshot-" + CurrentDate + "_" + CurrentTime + ".png" + "]</i>";
     }
 
     private void ToggleConsoleState()
