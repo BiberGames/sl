@@ -24,6 +24,7 @@ public class Console : MonoBehaviour
 
     private bool CanOpenConsole = true;
     private bool ShowUnityLog = true;
+    private bool CheatsAllowed = false;
 
     void OnEnable()
     {
@@ -109,7 +110,7 @@ public class Console : MonoBehaviour
             return;
         }
 
-        if(Command[0] == "help")
+        if(Command[0] == "help" && CheatsAllowed)
         {
             Output.text += "\n=====Console=Help=============================================";
             Output.text += "\nhelp\t=>\topens this page";
@@ -134,7 +135,7 @@ public class Console : MonoBehaviour
         {
             Clear();
         }
-        else if(Command[0] == "lua")
+        else if(Command[0] == "lua"  && CheatsAllowed)
         {
             if(Command[1] == "")
             {
@@ -160,7 +161,7 @@ public class Console : MonoBehaviour
             AddLine("\n=====Version=Info=============================================");
             AddLine("\n=Version:" + _Engine_VersionInfo.VersionString);
         }
-        else if(Command[0] == "cl_drawclip")
+        else if(Command[0] == "cl_drawclip"  && CheatsAllowed)
         {
             Color customColor = new Color(1f, 0f, 0f, float.Parse(Command[1]));
             GameObject.Find("LuaRunner").GetComponent<AddonMapLoader>().Wireframe.SetColor("_WireColor", customColor);
@@ -168,6 +169,19 @@ public class Console : MonoBehaviour
         else if(Command[0] == "ShowUnityLog")
         {
             ShowUnityLog = !ShowUnityLog;
+        }
+        else if (Command[0] == "cl_cheats")
+        {
+            if(Command[1] == "1" || Command[1] == "true")
+            {
+                AddLine("\n<color=#FF0000>Cheats Enabled!<color=#FFFFFF>");
+                CheatsAllowed == true;
+            }
+            else
+            {
+                AddLine("\n<color=#FF0000>Cheats Disabled!<color=#FFFFFF>");
+                CheatsAllowed == false;
+            }
         }
         else
         {
